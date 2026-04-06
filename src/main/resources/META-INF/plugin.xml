@@ -1,0 +1,19 @@
+<idea-plugin>
+    <id>com.embabel.agent.intellij-plugin</id>
+    <name>Embabel Agent Support</name>
+    <vendor url="https://github.com/embabel/embabel-agent">Embabel</vendor>
+    <description><![CDATA[
+        Provides IntelliJ IDEA support for the embabel-agent framework.<br/>
+        <ul>
+            <li>Suppresses false "unused method" warnings on framework-invoked
+            annotations: <code>@Action</code>, <code>@Condition</code>, <code>@Cost</code>.
+            </li>
+        </ul>
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <implicitUsageProvider
+            implementation="com.embabel.agent.intellij.ActionImplicitUsageProvider"/>
+    </extensions>
+</idea-plugin>
