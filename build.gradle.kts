@@ -6,6 +6,20 @@ plugins {
 group = "com.embabel.agent"
 version = "1.0.0-SNAPSHOT"
 
+// IntelliJ IDEA 2023.3 ships with Java 17 (class file version 61.0).
+// Build with whatever JDK is installed, but emit Java 17 bytecode for
+// both Kotlin and Java so the IDE classloader can load the plugin.
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 repositories {
     mavenCentral()
     intellijPlatform {
@@ -19,7 +33,6 @@ dependencies {
         bundledPlugin("com.intellij.java")
         pluginVerifier()
         zipSigner()
-        instrumentationTools()
     }
 }
 
