@@ -1,9 +1,8 @@
-import org.jetbrains.intellij.platform.gradle.models.IntelliJPlatformType
-import org.jetbrains.intellij.platform.gradle.models.ProductRelease
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
-    id("org.jetbrains.intellij.platform") version "2.13.1"
+    id("org.jetbrains.intellij.platform") version "2.10.5"
 }
 
 group = "com.embabel.agent"
@@ -13,7 +12,7 @@ version = "1.0.0"
 // targeting 2025.1 or later per the IntelliJ Platform SDK docs.
 kotlin {
     compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+        jvmTarget = JvmTarget.JVM_21
     }
 }
 
@@ -31,7 +30,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        // 2025.3 unified IntelliJ IDEA (Community + Ultimate merged) — use intellijIdea()
+        // 2025.3 unified IntelliJ IDEA (Community + Ultimate merged)
         intellijIdea("2025.3.4")
         bundledPlugin("com.intellij.java")
         pluginVerifier()
@@ -51,15 +50,7 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            // Capped at 253.* to avoid a Gradle tar-extraction bug with the 2026.1 IDE
-            // (gradle-api-9.3.0.jar fails to copy on Linux CI runners).
-            // Remove the untilBuild cap here once the upstream bug is resolved.
-            select {
-                types = listOf(IntelliJPlatformType.IntellijIdeaUltimate)
-                channels = listOf(ProductRelease.Channel.RELEASE)
-                sinceBuild = "233"
-                untilBuild = "253.*"
-            }
+            ide("IC-2025.2")
         }
     }
 
