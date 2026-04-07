@@ -39,7 +39,7 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         id = "com.embabel.agent.intellij-plugin"
-        name = "Embabel Agent Support"
+        name = "Embabel Agent"
         version = project.version.toString()
         ideaVersion {
             sinceBuild = "233"
