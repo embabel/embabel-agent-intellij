@@ -48,7 +48,8 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            recommended()
+            ide("IC-2023.3")
+            ide("IC-2024.3")
         }
     }
 
