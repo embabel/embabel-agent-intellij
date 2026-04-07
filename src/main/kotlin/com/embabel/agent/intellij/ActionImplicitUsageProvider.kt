@@ -1,14 +1,17 @@
 package com.embabel.agent.intellij
 
 import com.intellij.codeInsight.daemon.ImplicitUsageProvider
+import com.intellij.openapi.application.ReadAction
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 
 class ActionImplicitUsageProvider : ImplicitUsageProvider {
 
     override fun isImplicitUsage(element: PsiElement): Boolean =
-        element is PsiMethod && FRAMEWORK_ANNOTATIONS.any { fqn ->
-            element.hasAnnotation(fqn)
+        ReadAction.compute<Boolean, Throwable> {
+            element is PsiMethod && FRAMEWORK_ANNOTATIONS.any { fqn ->
+                element.hasAnnotation(fqn)
+            }
         }
 
     override fun isImplicitRead(element: PsiElement): Boolean = false

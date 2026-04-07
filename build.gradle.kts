@@ -1,23 +1,22 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
-    id("org.jetbrains.intellij.platform") version "2.2.0"
+    id("org.jetbrains.kotlin.jvm") version "2.1.20"
+    id("org.jetbrains.intellij.platform") version "2.13.1"
 }
 
 group = "com.embabel.agent"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
-// IntelliJ IDEA 2023.3 ships with Java 17 (class file version 61.0).
-// Build with whatever JDK is installed, but emit Java 17 bytecode for
-// both Kotlin and Java so the IDE classloader can load the plugin.
+// IntelliJ IDEA 2025.3 ships with JBR 21. Kotlin 2.x is required for
+// targeting 2025.1 or later per the IntelliJ Platform SDK docs.
 kotlin {
     compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
     }
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -29,7 +28,8 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2023.3")
+        // 2025.3 unified IntelliJ IDEA (Community + Ultimate merged) — use intellijIdea()
+        intellijIdea("2025.3.4")
         bundledPlugin("com.intellij.java")
         pluginVerifier()
         zipSigner()
@@ -48,8 +48,7 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            ide("IC-2023.3")
-            ide("IC-2024.3")
+            recommended()
         }
     }
 
