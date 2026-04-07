@@ -43,12 +43,24 @@ intellijPlatform {
         version = project.version.toString()
         ideaVersion {
             sinceBuild = "233"
-            untilBuild = provider { null }
+            untilBuild = provider { null } // no upper cap — plugin works on all future IDEs
         }
     }
     pluginVerification {
         ides {
-            recommended()
+            // Capped at 253.* to avoid a Gradle tar-extraction bug with the 2026.1 IDE
+            // (gradle-api-9.3.0.jar fails to copy on Linux CI runners).
+            // Remove the untilBuild cap here once the upstream bug is resolved.
+            select {
+                types = listOf(
+                    org.jetbrains.intellij.platform.gradle.models.IntelliJPlatformType.IntellijIdeaUltimate
+                )
+                channels = listOf(
+                    org.jetbrains.intellij.platform.gradle.models.ProductRelease.Channel.RELEASE
+                )
+                sinceBuild = "233"
+                untilBuild = "253.*"
+            }
         }
     }
 
