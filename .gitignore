@@ -2,4 +2,3 @@
 build/
 *.iml
 .gradle/
-gradle/wrapper/gradle-wrapper.jar
