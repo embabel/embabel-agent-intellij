@@ -1,3 +1,6 @@
+import org.jetbrains.intellij.platform.gradle.models.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("org.jetbrains.intellij.platform") version "2.13.1"
@@ -52,12 +55,8 @@ intellijPlatform {
             // (gradle-api-9.3.0.jar fails to copy on Linux CI runners).
             // Remove the untilBuild cap here once the upstream bug is resolved.
             select {
-                types = listOf(
-                    org.jetbrains.intellij.platform.gradle.models.IntelliJPlatformType.IntellijIdeaUltimate
-                )
-                channels = listOf(
-                    org.jetbrains.intellij.platform.gradle.models.ProductRelease.Channel.RELEASE
-                )
+                types = listOf(IntelliJPlatformType.IntellijIdeaUltimate)
+                channels = listOf(ProductRelease.Channel.RELEASE)
                 sinceBuild = "233"
                 untilBuild = "253.*"
             }
