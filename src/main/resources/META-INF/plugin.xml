@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.embabel.agent.intellij-plugin</id>
-    <name>Embabel Agent Support</name>
+    <name>Embabel Agent</name>
     <vendor url="https://github.com/embabel/embabel-agent">Embabel</vendor>
     <description><![CDATA[
         Provides IntelliJ IDEA support for the embabel-agent framework.<br/>
