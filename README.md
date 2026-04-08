@@ -1,6 +1,6 @@
 <img align="left" src="https://github.com/embabel/embabel-agent/blob/main/embabel-agent-api/images/315px-Meister_der_Weltenchronik_001.jpg?raw=true" width="180">
 
-# embabel-agent-intellij
+# Embabel Agent Intellij Extesions
 
 [![Build](https://github.com/embabel/embabel-agent-intellij/actions/workflows/build.yml/badge.svg)](https://github.com/embabel/embabel-agent-intellij/actions/workflows/build.yml)
 [![JetBrains Plugin](https://img.shields.io/jetbrains/plugin/v/com.embabel.agent.intellij-plugin)](https://plugins.jetbrains.com/plugin/com.embabel.agent.intellij-plugin)
