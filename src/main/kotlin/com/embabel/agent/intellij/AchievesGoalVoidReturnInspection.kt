@@ -22,7 +22,12 @@ class AchievesGoalVoidReturnInspection : AbstractBaseJavaLocalInspectionTool() {
      * Fallback description shown in Settings > Inspections if the HTML description file
      * (inspectionDescriptions/AchievesGoalVoidReturn.html) cannot be loaded.
      */
-    override fun getStaticDescription(): String = MESSAGE
+    override fun getStaticDescription(): String =
+        "Reports methods annotated with @AchievesGoal in an @Agent class that return void. " +
+            "In the Embabel framework, the return type of an @AchievesGoal method defines " +
+            "the goal's output type. A void return is semantically invalid and will produce " +
+            "broken agent plans at runtime. " +
+            "Change the return type to a domain object that represents the goal output."
 
     /**
      * Returns a visitor that checks each Java method for the error condition.

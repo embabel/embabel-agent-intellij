@@ -20,12 +20,13 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
 
         super.setUp()
 
+        // Stubs are intentionally permissive (no @Target) so that test fixtures
+        // placing them on any element kind remain valid Java.
         myFixture.addClass(
             """
             package com.embabel.agent.api.annotation;
             import java.lang.annotation.*;
             @Retention(RetentionPolicy.RUNTIME)
-            @Target(ElementType.TYPE)
             public @interface Agent {
                 String description();
             }
@@ -37,7 +38,6 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
             package com.embabel.agent.api.annotation;
             import java.lang.annotation.*;
             @Retention(RetentionPolicy.RUNTIME)
-            @Target(ElementType.METHOD)
             public @interface AchievesGoal {
                 String description();
             }
@@ -90,6 +90,7 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
 
     /**
      * {@code @AchievesGoal void} outside an {@code @Agent} class should not be flagged.
+     * Uses {@code checkHighlighting()} (not the filtered helper) so any unexpected error is caught.
      */
     fun testVoidReturnWithoutAgentAnnotationNoError() {
 
@@ -103,11 +104,12 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
             }
         """.trimIndent()
         )
-        assertNoInspectionProblems()
+        myFixture.checkHighlighting()
     }
 
     /**
      * A plain {@code void} method in an {@code @Agent} class without {@code @AchievesGoal} is fine.
+     * Uses {@code checkHighlighting()} (not the filtered helper) so any unexpected error is caught.
      */
     fun testVoidReturnWithoutAchievesGoalNoError() {
         myFixture.configureByText(
@@ -120,7 +122,7 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
             }
         """.trimIndent()
         )
-        assertNoInspectionProblems()
+        myFixture.checkHighlighting()
     }
 
     /**
@@ -170,6 +172,7 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
     /**
      * Constructors have a {@code null} return type (not {@code void}).
      * The inspection must silently skip them even if annotated with {@code @AchievesGoal}.
+     * Uses {@code checkHighlighting()} (not the filtered helper) so any unexpected error is caught.
      */
     fun testConstructorWithAchievesGoalNoError() {
 
@@ -185,12 +188,13 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
             }
         """.trimIndent()
         )
-        assertNoInspectionProblems()
+        myFixture.checkHighlighting()
     }
 
     /**
      * An inner class inside an {@code @Agent} class is not itself an agent.
      * A {@code @AchievesGoal void} method in the inner class must not be flagged.
+     * Uses {@code checkHighlighting()} (not the filtered helper) so any unexpected error is caught.
      */
     fun testVoidMethodInInnerClassOfAgentNoError() {
 
@@ -208,7 +212,7 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
             }
         """.trimIndent()
         )
-        assertNoInspectionProblems()
+        myFixture.checkHighlighting()
     }
 
     /**
@@ -229,6 +233,34 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
     }
 
     /**
+     * Verifies that the inspection offers suppression actions (the standard {@code @SuppressWarnings}
+     * and {@code //noinspection} mechanisms). Actual suppression filtering requires a full JDK and
+     * the complete Java inspection suppressor pipeline, which the light test fixture does not provide.
+     * This test verifies the contract by checking that suppression intention actions are available
+     * at the error site.
+     */
+    fun testSuppressionActionsAvailable() {
+
+        myFixture.configureByText(
+            "TestAgent.java", """
+            import com.embabel.agent.api.annotation.Agent;
+            import com.embabel.agent.api.annotation.AchievesGoal;
+
+            @Agent(description = "test")
+            public class TestAgent {
+                @AchievesGoal(description = "goal")
+                public void bad<caret>Method() {}
+            }
+        """.trimIndent()
+        )
+        val intentions = myFixture.availableIntentions
+        val hasSuppression = intentions.any {
+            it.familyName.contains("Suppress") || it.text.contains("Suppress")
+        }
+        assertTrue("Suppression actions should be available at the error site", hasSuppression)
+    }
+
+    /**
      * Verifies that the HTML description file is on the classpath so the inspection settings panel is not blank.
      */
     fun testInspectionHasDescription() {
@@ -243,6 +275,12 @@ class AchievesGoalVoidReturnInspectionTest : LightJavaCodeInsightFixtureTestCase
 
     /**
      * Asserts that no highlights matching this inspection's message exist in the current file.
+     *
+     * Use this only when the fixture contains types that the light test fixture cannot resolve
+     * (e.g. {@code String}, {@code Object}) — those produce unrelated "Cannot resolve symbol" errors
+     * that make {@code checkHighlighting()} fail. For fixtures that use only {@code void} returns
+     * and custom annotations, prefer {@code checkHighlighting()} instead so that any unexpected
+     * error in the fixture is caught.
      */
     private fun assertNoInspectionProblems() {
         val problems = myFixture.doHighlighting().filter { it.description == AchievesGoalVoidReturnInspection.MESSAGE }
