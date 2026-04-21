@@ -37,6 +37,18 @@ To launch a sandboxed IDE instance with the plugin installed:
 ./gradlew runIde
 ```
 
+## Integration Testing
+
+To run the real-IDE integration test harness:
+
+```bash
+./gradlew integrationTest
+```
+
+This task builds the plugin ZIP, starts IntelliJ IDEA with the plugin installed, opens a
+local sample project, and verifies that the `@AchievesGoal` void-return inspection reports
+an error through the live highlighting pipeline.
+
 ## Publishing to the JetBrains Marketplace
 
 Publishing requires the following GitHub Actions secrets to be configured in the repository:
