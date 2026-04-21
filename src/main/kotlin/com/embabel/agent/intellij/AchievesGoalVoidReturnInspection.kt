@@ -62,6 +62,6 @@ class AchievesGoalVoidReturnInspection : AbstractBaseJavaLocalInspectionTool() {
     companion object {
         const val ACHIEVES_GOAL_FQN = "com.embabel.agent.api.annotation.AchievesGoal"
         const val AGENT_FQN = "com.embabel.agent.api.annotation.Agent"
-        const val MESSAGE = "@AchievesGoal method must not return void \u2014 the return type is used as the goal output type"
+        const val MESSAGE = "@AchievesGoal method must not return void - the return type is used as the goal output type"
     }
 }
