@@ -21,7 +21,7 @@
         <localInspection
                 language="JAVA"
                 groupName="Embabel Agent"
-                displayName="@AchievesGoal method returns void"
+                displayName="@AchievesGoal method returns void, must return a goal result type"
                 shortName="AchievesGoalVoidReturn"
                 level="ERROR"
                 enabledByDefault="true"
