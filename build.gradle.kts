@@ -67,14 +67,9 @@ dependencies {
         )
     }
     testImplementation("junit:junit:4.13.2")
-    add(integrationTestSourceSet.implementationConfigurationName, "org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
     add(integrationTestSourceSet.implementationConfigurationName, "org.junit.jupiter:junit-jupiter:5.13.4")
     add(integrationTestSourceSet.runtimeOnlyConfigurationName, "org.junit.jupiter:junit-jupiter-engine:5.13.4")
     add(integrationTestSourceSet.runtimeOnlyConfigurationName, "org.junit.platform:junit-platform-launcher:1.13.4")
-    add(integrationTestSourceSet.runtimeOnlyConfigurationName, "com.intellij.platform:kotlinx-coroutines-core-jvm:1.10.1-intellij-5")
-    add(integrationTestSourceSet.runtimeOnlyConfigurationName, "org.jetbrains.kotlin:kotlin-reflect:2.2.20")
-    add(integrationTestSourceSet.runtimeOnlyConfigurationName, "org.kodein.di:kodein-di-jvm:7.26.1")
-    add(integrationTestPluginSourceSet.implementationConfigurationName, "org.jetbrains.kotlin:kotlin-stdlib:2.1.20")
 }
 
 intellijPlatform {

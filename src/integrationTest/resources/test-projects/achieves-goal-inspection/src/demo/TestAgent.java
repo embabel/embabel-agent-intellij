@@ -9,9 +9,7 @@ public class TestAgent {
     public void badMethod() {}
 
     @AchievesGoal(description = "valid")
-    public GoalResult goodMethod() {
-        return new GoalResult();
+    public String goodMethod() {
+        return "ok";
     }
-
-    public static final class GoalResult {}
 }

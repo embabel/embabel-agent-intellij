@@ -23,13 +23,14 @@ class InspectionIntegrationProbe(private val project: Project) {
     /**
      * Resolves [relativePath] against the opened test project, runs the production
      * [AchievesGoalVoidReturnInspection] for that file, and returns the rendered
-     * problem descriptions. An empty list means the file could not be resolved or
+     * problem descriptions together with their line numbers encoded as
+     * `line|description`. An empty list means the file could not be resolved or
      * the inspection did not report any problems.
      */
-    fun findErrorDescriptions(relativePath: String): List<String> {
-        
+    @Suppress("unused")
+    fun findProblems(relativePath: String): List<String> {
         val psiFile = loadPsiFile(relativePath) ?: return emptyList()
-        loadDocument(psiFile) ?: return emptyList()
+        val document = loadDocument(psiFile) ?: return emptyList()
 
         return ReadAction.compute<List<String>, RuntimeException> {
             val inspectionManager = InspectionManager.getInstance(project)
@@ -38,8 +39,20 @@ class InspectionIntegrationProbe(private val project: Project) {
                 psiFile,
                 inspection,
                 inspectionManager.createNewGlobalContext(false),
-            ).mapNotNull { it.descriptionTemplate }
+            ).mapNotNull { descriptor -> encodeProblem(descriptor, document) }
         }
+    }
+
+    private fun encodeProblem(
+        descriptor: com.intellij.codeInspection.ProblemDescriptor,
+        document: Document,
+    ): String? {
+        val description = descriptor.descriptionTemplate ?: return null
+        val line = descriptor.psiElement?.textRange?.startOffset?.let { offset ->
+            (document.getLineNumber(offset) + 1).toString()
+        } ?: return null
+
+        return "$line|$description"
     }
 
     /**
