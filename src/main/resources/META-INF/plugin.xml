@@ -8,6 +8,9 @@
             <li>Suppresses false "unused method" warnings on framework-invoked
             annotations: <code>@Action</code>, <code>@Condition</code>, <code>@Cost</code>.
             </li>
+            <li>Reports an error when an <code>@AchievesGoal</code> method in an
+            <code>@Agent</code> class returns <code>void</code> instead of a domain object type.
+            </li>
         </ul>
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
@@ -15,5 +18,13 @@
     <extensions defaultExtensionNs="com.intellij">
         <implicitUsageProvider
             implementation="com.embabel.agent.intellij.ActionImplicitUsageProvider"/>
+        <localInspection
+                language="JAVA"
+                groupName="Embabel Agent"
+                displayName="@AchievesGoal method returns void"
+                shortName="AchievesGoalVoidReturn"
+                level="ERROR"
+                enabledByDefault="true"
+                implementationClass="com.embabel.agent.intellij.AchievesGoalVoidReturnInspection"/>
     </extensions>
 </idea-plugin>
