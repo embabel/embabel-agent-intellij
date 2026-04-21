@@ -6,10 +6,10 @@
         Provides IntelliJ IDEA support for the embabel-agent framework.<br/>
         <ul>
             <li>Suppresses false "unused method" warnings on framework-invoked
-            annotations: <code>@Action</code>, <code>@Condition</code>, <code>@Cost</code>.
+            annotations such as <code>@Action</code>, <code>@Condition</code>, and <code>@Cost</code>.
             </li>
-            <li>Reports an error when an <code>@AchievesGoal</code> method in an
-            <code>@Agent</code> class returns <code>void</code> instead of a domain object type.
+            <li>Highlights an error when an <code>@AchievesGoal</code> method in an
+            <code>@Agent</code> class returns <code>void</code> instead of a goal result type.
             </li>
         </ul>
     ]]></description>
