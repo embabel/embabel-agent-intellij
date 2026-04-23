@@ -1,0 +1,10 @@
+<idea-plugin>
+    <id>com.embabel.agent.intellij-plugin.integration-test</id>
+    <name>Embabel Agent Integration Test Support</name>
+    <vendor url="https://github.com/embabel/embabel-agent">Embabel</vendor>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.embabel.agent.intellij-plugin</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.embabel.agent.intellij.InspectionIntegrationProbe"/>
+    </extensions>
+</idea-plugin>
