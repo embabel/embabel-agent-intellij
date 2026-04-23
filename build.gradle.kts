@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.embabel.agent"
-version = "1.0.0"
+version = "1.0.1"
 
 // IntelliJ IDEA 2025.3 ships with JBR 21. Kotlin 2.x is required for
 // targeting 2025.1 or later per the IntelliJ Platform SDK docs.
